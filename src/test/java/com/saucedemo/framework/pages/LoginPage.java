@@ -59,9 +59,9 @@ public class LoginPage extends BasePage {
     @Override
     public boolean isPageLoaded() {
         try {
-            return isElementVisible(USERNAME_FIELD_LOCATOR) && 
-                   isElementVisible(PASSWORD_FIELD_LOCATOR) && 
-                   isElementVisible(LOGIN_BUTTON_LOCATOR);
+            return isElementCurrentlyVisible(USERNAME_FIELD_LOCATOR) && 
+                   isElementCurrentlyVisible(PASSWORD_FIELD_LOCATOR) && 
+                   isElementCurrentlyVisible(LOGIN_BUTTON_LOCATOR);
         } catch (Exception e) {
             LOGGER.error("Error al verificar si la página de login está cargada: {}", e.getMessage());
             return false;

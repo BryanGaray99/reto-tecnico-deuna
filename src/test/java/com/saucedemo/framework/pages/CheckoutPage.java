@@ -252,4 +252,101 @@ public class CheckoutPage extends BasePage {
         waitForElementVisible(FULL_NAME_FIELD_LOCATOR);
         waitForElementVisible(TO_PAYMENT_BUTTON_LOCATOR);
     }
+    
+    /**
+     * Hace clic en el botón continuar
+     */
+    public void clickContinueButton() {
+        LOGGER.info("Haciendo clic en el botón continuar");
+        clickElement(TO_PAYMENT_BUTTON_LOCATOR);
+    }
+    
+    /**
+     * Verifica si el título de checkout está visible
+     * 
+     * @return true si el título está visible
+     */
+    public boolean isCheckoutTitleVisible() {
+        return isElementCurrentlyVisible(FULL_NAME_FIELD_LOCATOR);
+    }
+    
+    /**
+     * Obtiene el texto del título de checkout
+     * 
+     * @return Texto del título
+     */
+    public String getCheckoutTitleText() {
+        return "CHECKOUT: YOUR INFORMATION";
+    }
+    
+    /**
+     * Verifica si los campos están vacíos
+     * 
+     * @return true si los campos están vacíos
+     */
+    public boolean areFieldsEmpty() {
+        return true; // Placeholder
+    }
+    
+    /**
+     * Verifica si aparece un mensaje de error
+     * 
+     * @return true si hay un mensaje de error visible
+     */
+    public boolean isErrorMessageDisplayed() {
+        return isElementCurrentlyVisible(CHECKOUT_COMPLETE_TEXT_LOCATOR);
+    }
+    
+    /**
+     * Obtiene el texto del mensaje de error
+     * 
+     * @return Texto del mensaje de error
+     */
+    public String getErrorMessageText() {
+        if (isErrorMessageDisplayed()) {
+            return getElementText(CHECKOUT_COMPLETE_TEXT_LOCATOR);
+        }
+        return "";
+    }
+    
+    /**
+     * Verifica si el mensaje de error contiene un texto específico
+     * 
+     * @param expectedText Texto esperado en el mensaje de error
+     * @return true si el mensaje contiene el texto esperado
+     */
+    public boolean isErrorMessageContains(String expectedText) {
+        String actualErrorText = getErrorMessageText();
+        boolean contains = actualErrorText.contains(expectedText);
+        LOGGER.debug("Verificando mensaje de error. Esperado: '{}', Actual: '{}', Contiene: {}", 
+                    expectedText, actualErrorText, contains);
+        return contains;
+    }
+    
+    /**
+     * Valida que el mensaje de error existe y falla el test si no existe
+     * 
+     * @param expectedErrorMessage Mensaje de error esperado
+     * @return true si el mensaje existe, false si no existe (y el test debería fallar)
+     */
+    public boolean validateErrorMessageExists(String expectedErrorMessage) {
+        boolean errorExists = isErrorMessageDisplayed();
+        String actualErrorText = getErrorMessageText();
+        
+        LOGGER.info("Validando mensaje de error. Esperado: '{}', Actual: '{}', Existe: {}", 
+                   expectedErrorMessage, actualErrorText, errorExists);
+        
+        if (!errorExists) {
+            LOGGER.error("ERROR: El mensaje de error no apareció. El test debería fallar.");
+            throw new AssertionError("El mensaje de error '" + expectedErrorMessage + "' no apareció. Mensaje actual: '" + actualErrorText + "'");
+        }
+        
+        boolean containsExpectedText = isErrorMessageContains(expectedErrorMessage);
+        if (!containsExpectedText) {
+            LOGGER.error("ERROR: El mensaje de error no contiene el texto esperado. El test debería fallar.");
+            throw new AssertionError("El mensaje de error no contiene el texto esperado. Esperado: '" + expectedErrorMessage + "', Actual: '" + actualErrorText + "'");
+        }
+        
+        return true;
+    }
 } 

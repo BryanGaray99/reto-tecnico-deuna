@@ -4,11 +4,11 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
 import net.serenitybdd.core.webdriver.driverproviders.DriverCapabilities;
-import net.thucydides.core.util.EnvironmentVariables;
-import net.thucydides.core.util.SystemEnvironmentVariables;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Properties;
 
 import java.net.URL;
 import java.time.Duration;
@@ -24,15 +24,14 @@ public class AppiumDriverManager {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(AppiumDriverManager.class);
     private static AppiumDriver driver;
-    private static final EnvironmentVariables environmentVariables = SystemEnvironmentVariables.createEnvironmentVariables();
     
     // URLs de configuración
-    private static final String APPIUM_SERVER_URL = environmentVariables.getProperty("appium.server.url", "http://localhost:4723");
-    private static final String APPIUM_SERVER_PATH = environmentVariables.getProperty("appium.server.path", "/wd/hub");
+    private static final String APPIUM_SERVER_URL = getProperty("appium.server.url", "http://localhost:4723");
+    private static final String APPIUM_SERVER_PATH = getProperty("appium.server.path", "/wd/hub");
     
     // Configuraciones de espera
-    private static final int IMPLICIT_WAIT = Integer.parseInt(environmentVariables.getProperty("appium.implicit.wait", "10"));
-    private static final int EXPLICIT_WAIT = Integer.parseInt(environmentVariables.getProperty("appium.explicit.wait", "20"));
+    private static final int IMPLICIT_WAIT = Integer.parseInt(getProperty("appium.implicit.wait", "10"));
+    private static final int EXPLICIT_WAIT = Integer.parseInt(getProperty("appium.explicit.wait", "20"));
     
     /**
      * Constructor privado para evitar instanciación
@@ -155,12 +154,23 @@ public class AppiumDriverManager {
     }
     
     /**
+     * Obtiene una propiedad del sistema con valor por defecto
+     * 
+     * @param key Clave de la propiedad
+     * @param defaultValue Valor por defecto
+     * @return Valor de la propiedad
+     */
+    private static String getProperty(String key, String defaultValue) {
+        return System.getProperty(key, defaultValue);
+    }
+    
+    /**
      * Obtiene el nombre de la plataforma desde las variables de entorno
      * 
      * @return Nombre de la plataforma
      */
     private static String getPlatformName() {
-        return environmentVariables.getProperty("webdriver.capabilities.appium:platformName", "Android");
+        return getProperty("webdriver.capabilities.appium:platformName", "Android");
     }
     
     /**
@@ -170,8 +180,8 @@ public class AppiumDriverManager {
      * @return Nombre del dispositivo
      */
     private static String getDeviceName(String platform) {
-        return environmentVariables.getProperty("saucedemo.device." + platform, 
-            "Android".equalsIgnoreCase(platform) ? "Android GoogleAPI Emulator" : "iPhone Simulator");
+        return getProperty("saucedemo.device." + platform, 
+            "Android".equalsIgnoreCase(platform) ? "sdk_gphone64_x86_64" : "iPhone Simulator");
     }
     
     /**
@@ -181,8 +191,8 @@ public class AppiumDriverManager {
      * @return Versión de la plataforma
      */
     private static String getPlatformVersion(String platform) {
-        return environmentVariables.getProperty("saucedemo.os.version." + platform,
-            "Android".equalsIgnoreCase(platform) ? "12.0" : "15.0");
+        return getProperty("saucedemo.os.version." + platform,
+            "Android".equalsIgnoreCase(platform) ? "16" : "15.0");
     }
     
     /**
@@ -192,8 +202,8 @@ public class AppiumDriverManager {
      * @return Ruta de la aplicación
      */
     private static String getAppPath(String platform) {
-        return environmentVariables.getProperty("saucedemo.app." + platform,
-            "storage:filename=sample-app-" + platform + (platform.equals("android") ? ".apk" : ".zip"));
+        return getProperty("saucedemo.app." + platform,
+            "C:\\Universidad\\Reto\\Framework-appium\\mda-2.2.0-25.apk");
     }
     
     /**
@@ -203,7 +213,7 @@ public class AppiumDriverManager {
      * @return Package name de la aplicación
      */
     private static String getAppPackage(String platform) {
-        return environmentVariables.getProperty("saucedemo.app.package." + platform,
+        return getProperty("saucedemo.app.package." + platform,
             "Android".equalsIgnoreCase(platform) ? "com.saucelabs.mydemoapp.android" : "com.saucelabs.mydemoapp.ios");
     }
     
@@ -214,7 +224,7 @@ public class AppiumDriverManager {
      * @return Activity principal de la aplicación
      */
     private static String getAppActivity(String platform) {
-        return environmentVariables.getProperty("saucedemo.app.activity." + platform,
+        return getProperty("saucedemo.app.activity." + platform,
             "Android".equalsIgnoreCase(platform) ? "com.saucelabs.mydemoapp.android.view.activities.SplashActivity" : "com.saucelabs.mydemoapp.ios.MainActivity");
     }
     

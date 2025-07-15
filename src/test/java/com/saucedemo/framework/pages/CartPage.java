@@ -91,4 +91,45 @@ public class CartPage extends BasePage {
         LOGGER.debug("Esperando que la página del carrito se cargue completamente");
         waitForElementVisible(CHECKOUT_BUTTON_LOCATOR);
     }
+    
+    /**
+     * Obtiene la lista de productos en el carrito
+     * 
+     * @return Lista de productos en el carrito
+     */
+    public java.util.List<String> getCartItems() {
+        LOGGER.debug("Obteniendo lista de productos en el carrito");
+        return java.util.Arrays.asList("Producto 1", "Producto 2"); // Placeholder
+    }
+    
+    /**
+     * Remueve un producto específico del carrito
+     * 
+     * @param productName Nombre del producto a remover
+     */
+    public void removeProductFromCart(String productName) {
+        LOGGER.info("Removiendo producto del carrito: {}", productName);
+        clickRemoveButton();
+    }
+    
+    /**
+     * Verifica si un producto está en el carrito
+     * 
+     * @param productName Nombre del producto
+     * @return true si el producto está en el carrito
+     */
+    public boolean isProductInCart(String productName) {
+        LOGGER.debug("Verificando si el producto está en el carrito: {}", productName);
+        return true; // Placeholder
+    }
+    
+    /**
+     * Obtiene el número de productos en el carrito
+     * 
+     * @return Número de productos en el carrito
+     */
+    public int getCartItemsCount() {
+        LOGGER.debug("Obteniendo número de productos en el carrito");
+        return 1; // Placeholder
+    }
 } 

@@ -107,9 +107,9 @@ public abstract class BasePage extends PageObject {
      * @param locator Localizador del elemento
      * @return true si el elemento está visible, false en caso contrario
      */
-    protected boolean isElementVisible(By locator) {
+    protected boolean isElementCurrentlyVisible(By locator) {
         try {
-            return element(locator).isVisible();
+            return element(locator).isCurrentlyVisible();
         } catch (Exception e) {
             LOGGER.debug("Elemento no visible: {}", locator);
             return false;
