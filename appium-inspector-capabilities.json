@@ -1,0 +1,18 @@
+{
+  "platformName": "Android",
+  "appium:automationName": "UiAutomator2",
+  "appium:deviceName": "sdk_gphone64_x86_64",
+  "appium:platformVersion": "16",
+  "appium:app": "C:\\Universidad\\Reto\\Framework-appium\\mda-2.2.0-25.apk",
+  "appium:appPackage": "com.saucelabs.mydemoapp.android",
+  "appium:appActivity": "com.saucelabs.mydemoapp.android.view.activities.SplashActivity",
+  "appium:autoGrantPermissions": true,
+  "appium:noReset": false,
+  "appium:newCommandTimeout": 300,
+  "appium:autoAcceptAlerts": true,
+  "appium:server": {
+    "address": "localhost",
+    "port": 4723,
+    "path": "/"
+  }
+} 
